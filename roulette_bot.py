@@ -23,21 +23,15 @@ def main_keyboard():
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.send_photo(
-        message.chat.id, 
-        WELCOME_IMAGE, 
-        caption="""🌟 **PATOUCH CASINO** 🌟
+    bot.send_photo(message.chat.id, WELCOME_IMAGE, caption="""🌟 **PATOUCH CASINO** 🌟
 
-Bienvenue dans le casino le plus prestigieux !
+Bienvenue !
 
-Choisissez une option ci-dessous :""", 
-        reply_markup=main_keyboard()
-    )
+Choisissez une option :""", reply_markup=main_keyboard())
 
 @bot.callback_query_handler(func=lambda call: True)
-def callback_handler(call):
-    chat_id = call.message.chat.id
-    bot.send_message(chat_id, f"✅ Vous avez sélectionné : {call.data}\n\nFonctionnalité en cours de développement.", reply_markup=main_keyboard())
+def callback(call):
+    bot.send_message(call.message.chat.id, f"✅ Clique sur : {call.data}")
 
-print("🚀 PATOUCH Casino démarré")
+print("Bot démarré")
 bot.infinity_polling()
