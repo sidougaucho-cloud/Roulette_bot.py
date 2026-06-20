@@ -1,4 +1,5 @@
 import telebot
+import os
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 TOKEN = os.getenv("TOKEN")
@@ -11,13 +12,13 @@ WELCOME_IMAGE = "https://i.postimg.cc/7ZSb4wnv/BC5238CA-BA84-46EC-9A68-5525C7137
 def main_keyboard():
     markup = InlineKeyboardMarkup(row_width=3)
     markup.add(
-        InlineKeyboardButton("🎰 Jouez !", callback_data="jouer"),
-        InlineKeyboardButton("💰 Solde", callback_data="solde"),
-        InlineKeyboardButton("📥 Recharger", callback_data="recharger")
+        InlineKeyboardButton("🎰 Jouez !", callback_data="bet_menu"),
+        InlineKeyboardButton("💰 Solde", callback_data="balance"),
+        InlineKeyboardButton("📥 Recharger", callback_data="deposit")
     )
     markup.add(
-        InlineKeyboardButton("📤 Encaisser", callback_data="encaisser"),
-        InlineKeyboardButton("🆘 SAV", callback_data="sav")
+        InlineKeyboardButton("📤 Encaisser", callback_data="withdraw"),
+        InlineKeyboardButton("🆘 SAV", callback_data="help")
     )
     return markup
 
@@ -35,8 +36,9 @@ Choisissez une option ci-dessous :""",
     )
 
 @bot.callback_query_handler(func=lambda call: True)
-def callback(call):
-    bot.send_message(call.message.chat.id, f"✅ Vous avez cliqué sur : {call.data}")
+def callback_handler(call):
+    chat_id = call.message.chat.id
+    bot.send_message(chat_id, f"✅ Vous avez sélectionné : {call.data}")
 
-print("🚀 Bot démarré - Test /start uniquement")
+print("🚀 PATOUCH Casino démarré")
 bot.infinity_polling()
