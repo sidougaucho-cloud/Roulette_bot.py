@@ -11,13 +11,13 @@ WELCOME_IMAGE = "https://i.postimg.cc/7ZSb4wnv/BC5238CA-BA84-46EC-9A68-5525C7137
 def main_keyboard():
     markup = InlineKeyboardMarkup(row_width=3)
     markup.add(
-        InlineKeyboardButton("🎰 Jouez !", callback_data="bet_menu"),
-        InlineKeyboardButton("💰 Solde", callback_data="balance"),
-        InlineKeyboardButton("📥 Recharger", callback_data="deposit")
+        InlineKeyboardButton("🎰 Jouez !", callback_data="jouer"),
+        InlineKeyboardButton("💰 Solde", callback_data="solde"),
+        InlineKeyboardButton("📥 Recharger", callback_data="recharger")
     )
     markup.add(
-        InlineKeyboardButton("📤 Encaisser", callback_data="withdraw"),
-        InlineKeyboardButton("🆘 SAV", callback_data="help")
+        InlineKeyboardButton("📤 Encaisser", callback_data="encaisser"),
+        InlineKeyboardButton("🆘 SAV", callback_data="sav")
     )
     return markup
 
@@ -35,10 +35,8 @@ Choisissez une option ci-dessous :""",
     )
 
 @bot.callback_query_handler(func=lambda call: True)
-def callback_handler(call):
-    chat_id = call.message.chat.id
-    if call.data in ["bet_menu", "balance", "deposit", "withdraw", "help"]:
-        bot.send_message(chat_id, f"✅ {call.data} sélectionné (en cours de développement)")
+def callback(call):
+    bot.send_message(call.message.chat.id, f"✅ Vous avez cliqué sur : {call.data}")
 
-print("🚀 Bot démarré - Test /start")
+print("🚀 Bot démarré - Test /start uniquement")
 bot.infinity_polling()
