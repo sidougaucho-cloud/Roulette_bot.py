@@ -1,7 +1,12 @@
+import os
 import telebot
 from telebot.types import InlineKeyboardMarkup, InlineKeyboardButton
 
 TOKEN = os.getenv("TOKEN")
+
+if not TOKEN:
+    raise Exception("Variable TOKEN introuvable dans Railway")
+
 ADMIN_ID = int(os.getenv("ADMIN_ID", 0))
 
 bot = telebot.TeleBot(TOKEN)
@@ -23,15 +28,20 @@ def main_keyboard():
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.send_photo(message.chat.id, WELCOME_IMAGE, caption="""🌟 **PATOUCH CASINO** 🌟
-
-Bienvenue !
-
-Choisissez une option :""", reply_markup=main_keyboard())
+    bot.send_photo(
+        message.chat.id,
+        WELCOME_IMAGE,
+        caption="🌟 PATOUCH CASINO 🌟\n\nBienvenue !\n\nChoisissez une option :",
+        reply_markup=main_keyboard()
+    )
 
 @bot.callback_query_handler(func=lambda call: True)
 def callback(call):
-    bot.send_message(call.message.chat.id, f"✅ Clique sur : {call.data}")
+    bot.answer_callback_query(call.id)
+    bot.send_message(
+        call.message.chat.id,
+        f"✅ Clique sur : {call.data}"
+    )
 
 print("Bot démarré")
-bot.infinity_polling()
+bot.infinity_polling(skip_pending=True)
