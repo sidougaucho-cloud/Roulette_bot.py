@@ -11,11 +11,11 @@ bot = telebot.TeleBot(TOKEN)
 
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "✅ Bot fonctionne ! /start OK")
+    bot.send_message(message.chat.id, "✅ **Le bot marche enfin !**\n\nBonjour, bienvenue !")
 
-@bot.message_handler(func=lambda m: True)
+@bot.message_handler(func=lambda message: True)
 def echo(message):
-    bot.reply_to(message, "Je suis en ligne !")
+    bot.send_message(message.chat.id, "Je suis en ligne ✅")
 
-print("🤖 Bot démarré avec succès - Test simple")
-bot.infinity_polling(none_stop=True)
+print("🤖 Bot démarré avec succès sur Railway")
+bot.infinity_polling(none_stop=True, interval=1)
